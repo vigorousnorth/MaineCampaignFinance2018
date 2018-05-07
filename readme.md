@@ -216,17 +216,17 @@ If you’re having trouble figuring out what’s going on, type `b` in the conso
 
 As you’ve probably surmised, `b` is a vector of true/false values that’s “true” when the ReceiptAmount of the donation from the corresponding row is over $50, and otherwise false. 
 
-And, as you may have guessed, this gives us a great way to make a subset of the just10 dataframe, showing only the donors who have given more than $50:
+And, as you may have guessed, this gives us a great way to make a subset of the `sample` dataframe, showing only the donors who have given more than $50:
 
 `> sample[sample$ReceiptAmount > 50,]`
 
-(the above is equivalent to typing `sample[b,]` – in both cases, we’re asking for the rows defined by a true/false vector inside the brackets and before the comma). 
+(the above is equivalent to typing `sample[b,]` – in both cases, we’re asking for the rows defined by a boolean vector inside the brackets and before the comma). 
  
 Using similar logic, let’s find everyone in our sample dataframe who has the first name “LINDA”:
 
 `> sample[sample$FirstName == 'LINDA',]`
 
-Challenge: How would you get all the rows from the `sample` dataframe where the ReceiptAmount is less than $10 or greater than 100?
+Challenge: How would you get all the rows from the `sample` dataframe where the `ReceiptAmount` is less than $10 or greater than $100?
 
 
 
@@ -236,9 +236,9 @@ Now that you’ve got a handle on filtering small dataframes, let’s tackle the
 
 As you may recall from when we ran the `summary()` function above, there’s a column labelled CandidateName. Here’s an excerpt from the summary report using my data:
 ~~~~
- CandidateName   				Amended  
-                        :11590   	N:19147  
- Janet Mills            : 1184   	Y:   80  
+ CandidateName   									  
+                        :11590   	
+ Janet Mills            : 1184  
  Mr. Adam Roland Cote   :  942            
  Hon. Mark Westwood Eves:  898            
  HON. TERESEA M HAYES   :  485            
