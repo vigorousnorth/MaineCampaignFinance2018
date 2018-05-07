@@ -4,11 +4,11 @@ This is a tutorial for complete beginners in R to start using and analyzing Main
 
 ## Getting started
 
-We'll be working with raw data from the [link]Maine Ethics Commission. Download and save the 2018 "Contributions and Loans" CSV file here.(https://secure.mainecampaignfinance.com/PublicSite/DataDownload.aspx) You'll need to unzip the file and save the CSV somewhere where you can find it later (I suggest renaming it with a more useful file name). 
+We'll be working with raw data from the Maine Ethics Commission. [Download and save the 2018 "Contributions and Loans" CSV file here.](https://secure.mainecampaignfinance.com/PublicSite/DataDownload.aspx) You'll need to unzip the file and save the CSV somewhere where you can find it later (I suggest renaming it with a more useful file name). 
 
-[link]Download R from here(https://cran.rstudio.com/)
+[Download R from here](https://cran.rstudio.com/)
 
-[link]And download RStudio from here(https://www.rstudio.com/products/rstudio/download/#download)
+[And download RStudio from here](https://www.rstudio.com/products/rstudio/download/#download)
 
 You’ll need to drag both programs into your Applications folder when they’re downloaded.
 
@@ -20,7 +20,7 @@ Type `getwd()` in the console. This is short for “get the working directory.�
 
 In the right side, where the files are listed, navigate to the folder where your data is saved. When you see your files, click the gear icon labelled “More” and choose “Set as working directory.” 
 
-When you do that, the console will auto-populate with the command `setwd("[the path to your current directory]`.
+When you do that, the console will auto-populate with the command `setwd("[*the path to your current directory*]")`.
 
 Now, type the up arrow twice in the console. The up arrow goes through the most recent commands you’ve entered, so hitting it twice will retrieve  “getwd()”. Hit enter and it should give you the path of the current directory where your data is.
 
@@ -95,15 +95,15 @@ Now try these commands, and compare it with the result above:
 
 As you probably guessed, the first command returned the 5th column of the 5th row of data (someone’s name). 
 
-The second command was a little trickier. Instead of passing R one number for the row, I gave it a vector of three numbers. In R, a “vector” is a sequence of elements. You can define a vector using the c() command (I think of the “c” as an abbreviation for “combine”). So data18[c(5,7,10),5] returned the names (that’s the 5th column, specified after the comma) from the 5th, 7th and 10th rows (specified in the vector before the comma).
+The second command was a little trickier. Instead of passing R one number for the row, I gave it a vector of three numbers. In R, a “vector” is a sequence of elements. You can define a vector using the `c()` command (I think of the “c” as an abbreviation for “combine”). So `data18[c(5,7,10),5]` returned the names (that’s the 5th column, specified after the comma) from the 5th, 7th and 10th rows (specified in the vector before the comma).
 
-Often, you just want a vector of sequential numbers;  that’s what the colon notation does in the 3rd command. data18[5,4:8] gives columns 4-8 from the 5th row.  The fourth command returns rows 5 through 7 (5:7).
+Often, you just want a vector of sequential numbers;  that’s what the colon notation does in the 3rd command. `data18[5,4:8]` gives columns 4-8 from the 5th row.  The fourth command returns rows 5 through 7 (`5:7`).
 
 Finally, for dataframes with named columns, like we have here, R also has a convenient notation for returning the results from a column as a vector:
 
-> data18$ReceiptAmount[5:7]
+`> data18$ReceiptAmount[5:7]`
 
-The $ sign specifies a specific single column from the data frame. Note that, because each column is already one-dimensional, there is no comma after the numbers in the bracket. This simply returns the 5th through the 7th elements of the ReceiptAmount column. 
+The `$` sign specifies a specific single column from the data frame. Note that, because each column is already one-dimensional, there is no comma after the numbers in the bracket. This simply returns the 5th through the 7th elements of the ReceiptAmount column. 
 
 
 ## BASIC MATH IN R
@@ -116,7 +116,7 @@ You can also use the console to do basic math:
 [1] 9
 ~~~~
 
-You can use “<”, “>” (less/greater than), “<=”, “>=” (less/greater than or equal to), “!=” (does not equal) and “==” (does equal) operators to compare values or vectors:
+You can use `<`, `>` (less/greater than), `<=`, `>=` (less/greater than or equal to), `!=` (does not equal) and `==` (does equal) operators to compare values or vectors:
 ~~~~
 > 3 < 5
 [1] TRUE
@@ -135,7 +135,7 @@ For instance, is the `ReceiptAmount` in row 20 greater than the receiptAmount in
 
 (you may get a different result since you’re working from different data)
 
-You can also use “Boolean” operators to check if multiple conditions are true or false. The “&” operator is short for AND:
+You can also use “Boolean” operators to check if multiple conditions are true or false. The `&` operator is short for AND:
 ~~~~
 > (5 < 7) & (3^2 <= 9)
 [1] TRUE
@@ -145,9 +145,9 @@ And the “|” operator is short for OR:
 > (9 < 7) | (3^2 <= 9)
 [1] TRUE
 ~~~~
-(here, the first set of parentheses is FALSE, but the second is TRUE; because one of them is true, the “OR” operator returns TRUE.)
+(here, the first set of parentheses is `FALSE`, but the second is `TRUE`; because one of them is true, the `OR` operator returns `TRUE`.)
 
-And the “!” operator is short for NOT:
+And the `!` operator is short for `NOT`:
 ~~~~
 > !(5 > 10)
 [1] TRUE
@@ -155,7 +155,7 @@ And the “!” operator is short for NOT:
 [1] TRUE
 ~~~~
  
-**An important note:** if you’re checking to see if two values are equal, you need to use “==”, not “=”:
+**An important note:** if you’re checking to see if two values are equal, you need to use `==`, not `=`.
 
 In R, the = sign is another way to assign a value to a variable. For instance, try this:
 ~~~~
@@ -177,9 +177,9 @@ The single = sign reassigns the value of “a” to 4. If we wanted to check whe
 ~~~~
 
 
-FILTERING AND SUBSETTING DATA FRAMES
+## FILTERING AND SUBSETTING DATA FRAMES
 
-For the next couple examples, it’ll be useful to work with a much smaller dataset. I’ve created a new dataframe using only the first 10 rows of data18 as it existed on May 2 (your version will be different), and using only the ReceiptAmount, ReceiptDate, LastName and FirstName columns (those are columns 2-5).
+For the next couple examples, it’ll be useful to work with a much smaller dataset. I’ve created a new dataframe using only the first 10 rows of data18 as it existed on May 2 (your version will be different), and using only the `ReceiptAmount`, `ReceiptDate`, `LastName` and `FirstName` columns (those are columns 2-5).
 
 Here’s the code I used:
 
@@ -208,13 +208,13 @@ Most useful for our purposes are “Boolean” vectors – vectors of true/false
 ~~~~
 We created a vector of 4 true and false values, then, in the second line, we asked for columns from our “just10” dataset based on that vector. As you may have guessed, just10[,a] returns only the 1st and 4th columns of the just10 data frame, because only the 1st and 4th elements of the a vector are “true”.
 
-Now let’s create another vector of true/false values named “b” – can you guess what this one is doing? 
+Now let’s create another vector of true/false values named `b` – can you guess what this one is doing? 
 
 `> b <- sample$ReceiptAmount > 50`
 
-If you’re having trouble figuring out what’s going on, type “b” in the console to look at what’s in there, and compare it to the contents of “sample.”
+If you’re having trouble figuring out what’s going on, type `b` in the console to look at what’s in there, and compare it to the contents of `sample`.
 
-As you’ve probably surmised, “b” is a vector of true/false values that’s “true” when the ReceiptAmount of the donation from the corresponding row is over $50, and otherwise false. 
+As you’ve probably surmised, `b` is a vector of true/false values that’s “true” when the ReceiptAmount of the donation from the corresponding row is over $50, and otherwise false. 
 
 And, as you may have guessed, this gives us a great way to make a subset of the just10 dataframe, showing only the donors who have given more than $50:
 
@@ -226,15 +226,15 @@ Using similar logic, let’s find everyone in our sample dataframe who has the f
 
 `> sample[sample$FirstName == 'LINDA',]`
 
-Challenge: How would you get all the rows from the “sample” dataframe where the ReceiptAmount is less than $10 OR greater than 100?
+Challenge: How would you get all the rows from the `sample` dataframe where the ReceiptAmount is less than $10 or greater than 100?
 
 
 
 ## SUBSETTING THE DONORS DATA
 
-Now that you’ve got a handle on filtering small dataframes, let’s tackle the big one. We want to filter the big Ethics dataset of political contributions to only look at donations for active gubernatorial candidates, getting rid of all the donations to PACS and state house campaigns.
+Now that you’ve got a handle on filtering small dataframes, let’s tackle the big one. We want to filter the big Ethics dataset of political contributions to only look at donations for active gubernatorial candidates, getting rid of all the donations to PACs and state house campaigns.
 
-As you may recall from when we ran the summary() function above, there’s a column labelled CandidateName. Here’s an excerpt from the summary report using my data:
+As you may recall from when we ran the `summary()` function above, there’s a column labelled CandidateName. Here’s an excerpt from the summary report using my data:
 ~~~~
  CandidateName   				Amended  
                         :11590   	N:19147  
@@ -251,7 +251,7 @@ It also tells me that, if I’m filtering out all the PAC and ballot question do
 
 This column offers one approach to subsetting the data: I could just use my “==” operators with an “||” (OR) Boolean statement to get all the rows where the CandidateName column is equal to “Janet Mills” OR “Mr. Adam Roland Cote” OR “Shawn Moody” OR... etc. etc.
 
-(don’t actually do this; there’s a better way)
+(don’t actually type this in; there’s a better way)
 
 `>  data18[((data18$CandidateName =="Shawn Moody") | (data18$CandidateName =="Janet Mills") | [and so on, and so on…]`
 
@@ -260,21 +260,23 @@ That’s pretty unwieldy. Also, there are some candidates whose names appear in 
 There’s a better way to do this. We’re going to look at the first column in the dataframe, the “OrgID” column. This is a unique identifier for each campaign. This way, we don’t need to worry about strange spellings in the CandidateName column.
 
 Here are the OrgIDs for active candidates as of May:
-~~~~
-Candidate	OrgID
-Caron		10166
-Cote		10067
-Dion		10184
-Eves		10132
-Fredette	10168
-Hayes		10057
-Mason		10173
-Mayhew	10112
-Mills		10125
-Moody		10224
-Russell	10139
-Sweet		10106
-~~~~
+
+|Candidate|OrgID
+| ----- |:------:|
+|Caron	|10166
+|Cote	|10067
+|Dion	|10184
+|Eves	|10132
+|Fredette	|10168
+|Hayes		|10057
+|Mason		|10173
+|Mayhew	|10112
+|Mills		|10125
+|Moody		|10224
+|Russell	|10139
+|Sweet		|10106
+
+
 Let’s put these into a vector:
 
 `> gov_ids <- c(10166,10067,10184,10132,10168,10057,10173,10112,10125,10224,10139,10106)`
