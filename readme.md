@@ -1,8 +1,8 @@
-#Introduction to R with Maine campaign finance data
+# Introduction to R with Maine campaign finance data
 
 This is a tutorial for complete beginners in R to start using and analyzing Maine's campaign finance data. It also includes some basic workflow instructions for Press Herald staff to produce interactive datatables from these public reports.
 
-##Getting started
+## Getting started
 
 We'll be working with raw data from the [link]Maine Ethics Commission. Download and save the 2018 "Contributions and Loans" CSV file here.(https://secure.mainecampaignfinance.com/PublicSite/DataDownload.aspx) You'll need to unzip the file and save the CSV somewhere where you can find it later (I suggest renaming it with a more useful file name). 
 
@@ -230,7 +230,7 @@ Challenge: How would you get all the rows from the “sample” dataframe where 
 
 
 
-##SUBSETTING THE DONORS DATA
+## SUBSETTING THE DONORS DATA
 
 Now that you’ve got a handle on filtering small dataframes, let’s tackle the big one. We want to filter the big Ethics dataset of political contributions to only look at donations for active gubernatorial candidates, getting rid of all the donations to PACS and state house campaigns.
 
