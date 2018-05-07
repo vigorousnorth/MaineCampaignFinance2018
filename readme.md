@@ -96,11 +96,13 @@ Now try these commands, and compare it with the result above:
 
 `> data18[5:7,]`
 
-As you probably guessed, the first command returned the 5th column of the 5th row of data (someone’s name). 
+* As you probably guessed, the first command returned the 5th column of the 5th row of data (someone’s name from the `FirstName` column). 
 
-The second command was a little trickier. Instead of passing R one number for the row, I gave it a vector of three numbers. In R, a “vector” is a sequence of elements. You can define a vector using the `c()` command (I think of the “c” as an abbreviation for “combine”). So `data18[c(5,7,10),5]` returned the names (that’s the 5th column, specified after the comma) from the 5th, 7th and 10th rows (specified in the vector before the comma).
+* The second command was a little trickier. Instead of passing R one number for the row, I gave it a vector of three numbers. In R, a “vector” is a sequence of elements. You can define a vector using the `c()` command (I think of the “c” as an abbreviation for “combine”). So `data18[c(5,7,10),5]` returned the names (that’s the 5th column, specified after the comma) from the 5th, 7th and 10th rows (specified in the vector before the comma).
 
-Often, you just want a vector of sequential numbers;  that’s what the colon notation does in the 3rd command. `data18[5,4:8]` gives columns 4-8 from the 5th row.  The fourth command returns rows 5 through 7 (`5:7`).
+* Often, you just want a vector of sequential numbers;  that’s what the colon notation does in the 3rd command. `data18[5,4:8]` gives columns 4-8 from the 5th row.  
+
+* Similarly, the fourth command returns rows 5 through 7 (`5:7`).
 
 Finally, for dataframes with named columns, like we have here, R also has a convenient notation for returning the results from a column as a vector:
 
