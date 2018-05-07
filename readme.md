@@ -50,13 +50,13 @@ When it’s done, use the “summary” command to see what it looks like:
 
 `summary()` gives you, as the name suggests, a batch of summary statistics for each column in your data. 
 
-Note that some of these columns are summarized as numbers – “ReceiptAmount” and “OrgID,” for instance  – and for those the summary function returns numerical statistics like the mean, median and quartiles. 
+Note that some of these columns are summarized as numbers – `ReceiptAmount` and `OrgID` for instance  – and for those the summary function returns numerical statistics like the mean, median and quartiles. 
 
-But most of them are what R considers “factors.” They’re basically strings of text, many of which are identical. Under “City”, for instance, the most common factor will probably be “Portland,” and under “FirstName,” the most common factors will be names like “John” and “David.” 
+But most of them are what R considers “factors.” They’re basically strings of text, many of which are identical. Under `City`, for instance, the most common factor will probably be “Portland,” and under “FirstName,” the most common factors will be names like “John” and “David.” 
 
-Note that the Date columns are also factors – there’s no median date. There is a way to force R to recognize the date as a date, so that you can retrieve donations made before or after a certain date, but I won’t get into that here (you can google it if you need to). 
+Note that the `Date` columns are also factors – there’s no median date. There is a way to force R to recognize the date as a numerical date type, so that you can retrieve donations made before or after a certain time period, but I won’t get into that here (you can google it if you need to). 
 
-Here’s a couple other useful commands:
+A few other useful commands:
 
 `> nrow(data18)`
 
@@ -64,10 +64,10 @@ This simply gives you the number of rows (donations) in the dataset. As of May 2
 
 `> head(data18)`
 
-This just gives you the first 5 rows of the data frame. Again, it’s a handy way to do a quick check of your data, peek at its structure and make sure everything looks OK. 
+This just gives you the first 5 rows of the data frame. It’s another handy way to do a quick check of your data, peek at its structure and make sure everything looks OK. 
 
 
-##STRUCTURE OF R DATA FRAMES
+## STRUCTURE OF R DATA FRAMES
 
 When R loads a data frame, every element in it is indexed by a row and column number – kind of like rows and columns in Excel. 
 
@@ -162,8 +162,8 @@ In R, the = sign is another way to assign a value to a variable. For instance, t
 > a <- 6
 > a = 4
 ~~~~
-Here, we’ve created a new variable called “a” and assigned the value “6” to it. 
-You might expect the second line, “a=4”, to return FALSE.  But it doesn’t:
+Here, we’ve created a new variable called `a` and assigned the value `6` to it. 
+You might expect the second line, `a=4`, to return `FALSE`.  But it doesn’t:
 ~~~~
 > a
 [1] 4
@@ -185,7 +185,7 @@ Here’s the code I used:
 
 `> tenrows <- data18[0:10, 2:5]`
 
-But, since you’re working with a different dataset, I’ve attached that data as a CSV that [you can download from this repository](https://github.com/vigorousnorth/MaineCampaignFinance2018/blob/master/sample.csv). Save that file in whatever working directory you’re in, then use `read.csv`:
+But, since Ethics is updating the raw data all the time, and so that we can all work from the same example here, I’ve saved this small sample in a CSV that [you can download from this repository](https://github.com/vigorousnorth/MaineCampaignFinance2018/blob/master/sample.csv). Download and save that file in whatever working directory you’re in, then use `read.csv` to load it into R:
 
 `> sample <- read.csv("sample.csv", header=TRUE)`
 
@@ -193,20 +193,20 @@ Let’s check to make sure it worked. Type:
 
 `> sample`
 
-and hit enter. The console will print the entire contents of the just10 variable (obviously, you wouldn’t want to try this with the 20K row dataset).
+and hit enter. The console will print the entire contents of the `sample` variable (obviously, you wouldn’t want to do this with a 20,000 row dataset).
 
 OK, now that we’ve got a more manageably sized dataset, we’re going to try some stuff that’s going to illustrate how vectors in R can be used to slice and filter through large datasets. 
 
 Above we created some vectors of numbers: `c(2,5,7)`, for instance, and `data18$ReceiptAmount[5:7]`. 
 
-But R can also make vectors out of other things. `c('red','green','blue')` is a legitimate vector in R.  `data18$City[5:7]` will give you a vector of donors’ city names.
+But R can also make vectors out of other things. `c('red','green','blue')` is a legitimate vector in R.  `data18$City[5:7]` will give you a vector of donors’ city names from the 5th through the 7th rows of our `data18` dataframe.
 
 Most useful for our purposes are “Boolean” vectors – vectors of true/false values. Try typing this into R:
 ~~~~
 > a <- c(TRUE,FALSE,FALSE,TRUE)
 > sample[,a]
 ~~~~
-We created a vector of 4 true and false values, then, in the second line, we asked for columns from our “just10” dataset based on that vector. As you may have guessed, just10[,a] returns only the 1st and 4th columns of the just10 data frame, because only the 1st and 4th elements of the a vector are “true”.
+We created a vector of 4 true and false values, then, in the second line, we asked for a subset of columns from our `sample` dataset based on that vector. As you may have guessed, `sample[,a]` returns only the 1st and 4th columns of the `sample` data frame, because only the 1st and 4th elements of the a vector are `TRUE`.
 
 Now let’s create another vector of true/false values named `b` – can you guess what this one is doing? 
 
