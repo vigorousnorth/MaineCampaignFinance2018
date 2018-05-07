@@ -1,10 +1,12 @@
 # Introduction to R with Maine campaign finance data
 
-This is a tutorial for complete beginners in R to start using and analyzing Maine's campaign finance data. It also includes some basic workflow instructions for Press Herald staff to produce interactive datatables from these public reports.
+This is a tutorial for complete beginners in R to start using and analyzing Maine's campaign finance data. 
+
+[The last section](https://github.com/vigorousnorth/MaineCampaignFinance2018#prepping-the-donors-data-for-an-online-data-table) also includes some basic workflow instructions for Press Herald staff to produce interactive datatables from these public reports.
 
 ## Getting started
 
-We'll be working with raw data from the Maine Ethics Commission. [Download and save the 2018 "Contributions and Loans" CSV file here.](https://secure.mainecampaignfinance.com/PublicSite/DataDownload.aspx) You'll need to unzip the file and save the CSV somewhere where you can find it later (I suggest renaming it with a more useful file name). 
+We'll be working with raw data from the Maine Ethics Commission. [Download and save the 2018 "Contributions and Loans" CSV file here.](https://secure.mainecampaignfinance.com/PublicSite/DataDownload.aspx) You'll need to unzip the file and save the CSV file somewhere where you can find it later (I suggest renaming it with a more useful file name). 
 
 [Download R from here](https://cran.rstudio.com/)
 
@@ -22,7 +24,7 @@ In the right side, where the files are listed, navigate to the folder where your
 
 When you do that, the console will auto-populate with the command `setwd("[*the path to your current directory*]")`.
 
-Now, type the up arrow twice in the console. The up arrow goes through the most recent commands you’ve entered, so hitting it twice will retrieve  “getwd()”. Hit enter and it should give you the path of the current directory where your data is.
+Now, type the up arrow twice in the console. The up arrow goes through the most recent commands you’ve entered, so hitting it twice will retrieve  `getwd()`. Hit enter and it should give you the path of the current directory where your data is.
 
 Now we’re ready to load the campaign finance data into R. Here’s what that command will look like. Don’t type it in just yet:
 
@@ -127,7 +129,7 @@ You can use `<`, `>` (less/greater than), `<=`, `>=` (less/greater than or equal
 ~~~~
 (in vector operations, each value of the first vector is compared against the corresponding value in the second)
 
-For instance, is the `ReceiptAmount` in row 20 greater than the receiptAmount in row 10?
+For instance, is the `ReceiptAmount` in row 20 greater than the `receiptAmount` in row 10?
 ~~~~
  > data18$ReceiptAmount[20] > data18$ReceiptAmount[10]
 [1] FALSE
@@ -135,7 +137,7 @@ For instance, is the `ReceiptAmount` in row 20 greater than the receiptAmount in
 
 (you may get a different result since you’re working from different data)
 
-You can also use “Boolean” operators to check if multiple conditions are true or false. The `&` operator is short for AND:
+You can also use Boolean operators to check if multiple conditions are true or false. The `&` operator is short for AND:
 ~~~~
 > (5 < 7) & (3^2 <= 9)
 [1] TRUE
@@ -157,7 +159,7 @@ And the `!` operator is short for `NOT`:
  
 **An important note:** if you’re checking to see if two values are equal, you need to use `==`, not `=`.
 
-In R, the = sign is another way to assign a value to a variable. For instance, try this:
+In R, the `=` sign is another way to assign a value to a variable. For instance, try this:
 ~~~~
 > a <- 6
 > a = 4
