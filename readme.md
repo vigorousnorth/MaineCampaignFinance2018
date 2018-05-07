@@ -290,20 +290,20 @@ And now we can subset our original dataset on the OrgID column. Here’s one way
 
 `>  data18[( (data18$OrgID == gov_ids[1]) | (data18$OrgID == gov_ids[2]) | (data18$OrgID == gov_ids[3]) | (data18$OrgID == gov_ids[4]) | (data18$OrgID == gov_ids[5]) | (data18$OrgID == gov_ids[6]) | (data18$OrgID == gov_ids[7]) | (data18$OrgID == gov_ids[8]) | (data18$OrgID == gov_ids[9]) | (data18$OrgID == gov_ids[10]) | (data18$OrgID == gov_ids[11]) | (data18$OrgID == gov_ids[12]) ) ,]`
 
-This will work. But there’s a much more efficient method. Here, the `%in%` operator checks to see if each value on the left matches at least one element the ids vector on the right:
+This will work. But there’s a much more efficient method. Here, the `%in%` operator checks to see if each value from the `data18$OrgID` vector on the left matches at least one element the `gov_ids` vector on the right:
 
 `> govdonors <- data18[data18$OrgID %in% gov_ids,]`
 
-Here’s a more basic example of the %in% operator:
+Here’s a more basic example of the `%in%` operator to help illustrate how it works:
 ~~~~
 > c(0:5) %in% c(0,5,10,15,20,25,30,35,40)
 [1]  TRUE FALSE FALSE FALSE FALSE  TRUE
 ~~~~
-Only the numbers 0 and 5 in the first array match values in the second array, so the %in% operator only returns TRUE for the 1st and 5th elements.
+Only the numbers 0 and 5 in the first array match values in the second array, so the `%in%` operator only returns `TRUE` for the 1st and 5th elements.
 
-Similarly,  this vector:
+Similarly,  the vector returned from this command:
 
-`data18$OrgID %in% ids`
+`data18$OrgID %in% gov_ids`
 
 will only be `TRUE` where the `OrgID` in a row from `data18` matches one of the values in our `gov_ids` vector. 
 
@@ -394,13 +394,13 @@ Finally, to convert your csv file to JSON, replace each newline character with a
 
 ~~~~
 [
-["01/01/2018","Mr. Adam Roland Cote",100,"PAUL  BERKNER ","ROME","ME","Teacher/Education–COLBY COLLEGE"],
-["01/01/2018","Hon. Mark Westwood Eves",100,"HEIDI  SELDOMRIDGE ","OLYMPIA","WA","Teacher/Education–TUMWATER SCHOOL DISTRICT"],
+["01/01/2018","Mr. Adam Roland Cote",100,"PAUL BERKNER","ROME","ME","Teacher/Education–COLBY COLLEGE"],
+["01/01/2018","Hon. Mark Westwood Eves",100,"HEIDI SELDOMRIDGE","OLYMPIA","WA","Teacher/Education–TUMWATER SCHOOL DISTRICT"],
 .
 .
 .
-["04/24/2018","Shawn Moody",50,"JOHN  KOLLER ","SCARBOROUGH","ME","Retired–RETIRED"],
-["04/24/2018","Shawn Moody",1600,"WILLIAM  PLANTE ","SPRINGVALE","ME","–CHARLES PLANTE AND SON - EARTHWORK AND PAVING"]
+["04/24/2018","Shawn Moody",50,"JOHN KOLLER","SCARBOROUGH","ME","Retired–RETIRED"],
+["04/24/2018","Shawn Moody",1600,"WILLIAM PLANTE","SPRINGVALE","ME","–CHARLES PLANTE AND SON - EARTHWORK AND PAVING"]
 ]
 ~~~~
 
