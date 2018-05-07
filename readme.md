@@ -4,6 +4,7 @@ This is a tutorial for complete beginners in R to start using and analyzing Main
 
 [The last section](https://github.com/vigorousnorth/MaineCampaignFinance2018#prepping-the-donors-data-for-an-online-data-table) also includes some basic workflow instructions for Press Herald staff to produce interactive datatables from these public reports.
 
+
 ## Getting started
 
 We'll be working with raw data from the Maine Ethics Commission. [Download and save the 2018 "Contributions and Loans" CSV file here.](https://secure.mainecampaignfinance.com/PublicSite/DataDownload.aspx) You'll need to unzip the file and save the CSV file somewhere where you can find it later (I suggest renaming it with a more useful file name). 
@@ -54,7 +55,7 @@ When it’s done, use the “summary” command to see what it looks like:
 
 Note that some of these columns are summarized as numbers – `ReceiptAmount` and `OrgID` for instance  – and for those the summary function returns numerical statistics like the mean, median and quartiles. 
 
-But most of them are what R considers “factors.” They’re basically strings of text, many of which are identical. Under `City`, for instance, the most common factor will probably be “Portland,” and under “FirstName,” the most common factors will be names like “John” and “David.” 
+But most of them are what R considers “factors.” They’re basically strings of text, many of which are identical. Under `City`, for instance, the most common factor will probably be “Portland,” and under `FirstName`, the most common factors will be names like “John” and “David.” 
 
 Note that the `Date` columns are also factors – there’s no median date. There is a way to force R to recognize the date as a numerical date type, so that you can retrieve donations made before or after a certain time period, but I won’t get into that here (you can google it if you need to). 
 
@@ -142,7 +143,7 @@ You can also use Boolean operators to check if multiple conditions are true or f
 > (5 < 7) & (3^2 <= 9)
 [1] TRUE
 ~~~~
-And the “|” operator is short for OR:
+And the `|` operator is short for OR:
 ~~~~
 > (9 < 7) | (3^2 <= 9)
 [1] TRUE
@@ -170,7 +171,7 @@ You might expect the second line, `a=4`, to return `FALSE`.  But it doesn’t:
 > a
 [1] 4
 ~~~~
-The single = sign reassigns the value of “a” to 4. If we wanted to check whether “a” is a specific value we need to use a double equals sign:
+The single = sign reassigns the value of `a` to 4. If we wanted to check whether `a` is a specific value we need to use a double equals sign:
 ~~~~
 > a == 4
 [1] TRUE
@@ -203,7 +204,7 @@ Above we created some vectors of numbers: `c(2,5,7)`, for instance, and `data18$
 
 But R can also make vectors out of other things. `c('red','green','blue')` is a legitimate vector in R.  `data18$City[5:7]` will give you a vector of donors’ city names from the 5th through the 7th rows of our `data18` dataframe.
 
-Most useful for our purposes are “Boolean” vectors – vectors of true/false values. Try typing this into R:
+Most useful for our purposes are Boolean vectors – vectors of true/false values. Try typing this into R:
 ~~~~
 > a <- c(TRUE,FALSE,FALSE,TRUE)
 > sample[,a]
@@ -216,7 +217,7 @@ Now let’s create another vector of true/false values named `b` – can you gue
 
 If you’re having trouble figuring out what’s going on, type `b` in the console to look at what’s in there, and compare it to the contents of `sample`.
 
-As you’ve probably surmised, `b` is a vector of true/false values that’s “true” when the ReceiptAmount of the donation from the corresponding row is over $50, and otherwise false. 
+As you’ve probably surmised, `b` is a vector of true/false values that’s `TRUE` when the `ReceiptAmount` of the donation from the corresponding row is over $50, and otherwise `FALSE`. 
 
 And, as you may have guessed, this gives us a great way to make a subset of the `sample` dataframe, showing only the donors who have given more than $50:
 
@@ -247,19 +248,19 @@ As you may recall from when we ran the `summary()` function above, there’s a c
  Shawn Moody            :  401            
  (Other)                : 3727
 ~~~~
-This tells me that, of the complete data18 dataframe that I loaded from the CSV file, there are 11,590 rows that are blank in the “CandidateName” field (these are probably donations to PACs and/or ballot questions), plus 1,184 rows that represent donations to Janet Mills, 942 rows for Adam Cote, and so on. 
+This tells me that, of the complete data18 dataframe that I loaded from the CSV file, there are 11,590 rows that are blank in the `CandidateName` field (these are probably donations to PACs and/or ballot questions), plus 1,184 rows that represent donations to Janet Mills, 942 rows for Adam Cote, and so on. 
 
 It also tells me that, if I’m filtering out all the PAC and ballot question donations, my final result should be no larger than 8,500 rows (I’m starting with just under 19,000 rows, and subtracting out 11,590 rows that have no candidate specified). Again, you’ll be dealing with more rows, but this summary data can give you a ballpark estimate.
 
-This column offers one approach to subsetting the data: I could just use my “==” operators with an “||” (OR) Boolean statement to get all the rows where the CandidateName column is equal to “Janet Mills” OR “Mr. Adam Roland Cote” OR “Shawn Moody” OR... etc. etc.
+This column offers one approach to subsetting the data: I could just use my `==` operators with an `|` (OR) Boolean statement to get all the rows where the `CandidateName` column is equal to “Janet Mills” OR “Mr. Adam Roland Cote” OR “Shawn Moody” OR... etc. etc.
 
 (don’t actually type this in; there’s a better way)
 
 `>  data18[((data18$CandidateName =="Shawn Moody") | (data18$CandidateName =="Janet Mills") | [and so on, and so on…]`
 
-That’s pretty unwieldy. Also, there are some candidates whose names appear in multiple spellings in this dataset (Teresea Hayes and “HON. TERESEA M HAYES” for instance).
+That’s pretty unwieldy. Also, there are some candidates whose names appear in multiple spellings in this dataset (`Teresea Hayes` and `HON. TERESEA M HAYES` for instance).
 
-There’s a better way to do this. We’re going to look at the first column in the dataframe, the “OrgID” column. This is a unique identifier for each campaign. This way, we don’t need to worry about strange spellings in the CandidateName column.
+There’s a better way to do this. We’re going to look at the first column in the dataframe, the `OrgID` column. This is a unique identifier for each campaign. This way, we don’t need to worry about strange spellings in the CandidateName column.
 
 Here are the OrgIDs for active candidates as of May:
 
@@ -310,7 +311,7 @@ Let’s see if it worked. Try
 
 `> nrow(govdonors)`
 
-If this gives you “0”, something went wrong. Our May 2 dataset has 4,775 rows for 2018.
+If this gives you `0`, something went wrong. Our May 2 dataset has 4,775 rows for 2018.
 
 Try also 
 
