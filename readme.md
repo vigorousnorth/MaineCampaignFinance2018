@@ -185,7 +185,7 @@ Here’s the code I used:
 
 `> tenrows <- data18[0:10, 2:5]`
 
-But, since you’re working with a different dataset, I’ve attached that data as a CSV to this email (sample.csv). Save that file in whatever working directory you’re in, then use read.csv:
+But, since you’re working with a different dataset, I’ve attached that data as a CSV that [you can download from this repository](https://github.com/vigorousnorth/MaineCampaignFinance2018/blob/master/sample.csv). Save that file in whatever working directory you’re in, then use `read.csv`:
 
 `> sample <- read.csv("sample.csv", header=TRUE)`
 
@@ -316,11 +316,99 @@ Try also
 
 The default `summary()` function gives you the top 5 factors for each column; by specifying `maxsum=10`, you’ll get the top 10 instead. You can set maxsum equal to whatever you want but at some point it stops being useful as a summary.
 
-##PREPPING THE DONORS DATA FOR AN ONLINE DATA TABLE
+## PREPPING THE DONORS DATA FOR AN ONLINE DATA TABLE
 
 OK! If you’ve made it this far, you’ve winnowed down a dataset of over 20,000 rows to a slightly more manageable dataset of 5,000-odd rows.  Good job!
 
-There’s still a lot of stuff in our new govdonors dataframe that we don’t necessarily care about a whole lot. 
+There’s still a lot of stuff in our new `govdonors` dataframe that we don’t necessarily care about a whole lot. 
+
+In our [online database](https://www.pressherald.com/2018/05/02/search-database-donations-maines-2018-gubernatorial-campaign/) we include columns for the donation date (column 3), the beneficiary candidate (column 19), the donation amount (column 2), the donor's full name (columns 4-7), the donor's city, state, and occupation/employer (columns 23/22) – in that order.
+
+The donor names are contained in columns 4-6, so we're going to want to combine those. And similarly, we've been combining occupation and employer (columns 23 and 22, respectively) into one column, separated by an –.
+
+To do this, let's create a new column to `govdonors` called `fullName`, and use the `paste()` command to combine the contents of the name columns:
+
+`> govdonors$FullName <- paste(govdonors$FirstName,govdonors$MI, govdonors$LastName,govdonors$Suffix, sep=" ")`
+
+This tells R to cocatenate the FirstName, MI, LastName and Suffix columns into a single string, which each element separated with a single space character.
+
+Let's do something similar with the occupation/employer columns, using an – as the separator:
+
+`> govdonors$employment <- paste(govdonors$Occupation,govdonors$Employer, sep="–")`
+
+Let's look at a row in our new dataframe, with the two new columns:
+
+`> govdonors[5,]`
+
+You should now see the new `FullName` and `employment` columns, containing the same info that's in the FirstName, LastName and Occupation columns.  
+
+Now let's create a new dataframe called `theTable` that's going to copy only the columns we want from the `govdonors` dataframe.
+
+Try this:
+
+`> govdonors[5, c(3,19,2,26,10,11,27)]`
+
+The `c(3,19,2,26,10,11,27)` specifies the columns we want, in precisely the order we want them. 
+
+With any luck, you should see something like this:
+
+~~~~
+   ReceiptDate        CandidateName ReceiptAmount          FullName    City State
+32  01/01/2018 HON. TERESEA M HAYES           100 WILLIAM  ZARAKAS  BYFIELD    MA
+                     employment
+32 Consultant–THE BRATTLE GROUP
+~~~~
+
+If those are, indeed, the columns we want, let's create a new dataframe called `theTable` that copies every row from `govdonors`, but only those columns we're interested in:
+
+
+`> theTable <- govdonors[, c(3,19,2,26,10,11,27)]`
+
+Did everything make it? Try checking a few rows from your new `theTable` dataframe, or running `summary(theTable)`.
+
+### Writing data to a new csv file
+
+Remember the `read.csv` function? There's also a `write.csv` function that can save data from R to a new CSV file in your current working directory:
+
+`> write.csv(theTable, file="theTable.csv", row.names=FALSE, quote=c(1,2,4,5,6,7))`
+
+This command saves the contents of our `theTable` dataframe to a new file named `theTable.csv`. The `quote` parameter specifies that we want quotation marks around every column *except* the third one, which is the numeric donation amount. The row.names=FALSE parameter tells R that we don't have named rows for our dataset (the column names, on the other hand, will get written by default).
+
+Now, open `theTable.csv` in your favorite text editor. It should now be very close you need to save it as a JSON file for dataTables.
+
+### A few last cleanup items
+
+There are still a few quirks in the text file, though. Let's clean them up:
+
+* Remember how we separated the first name, middle initial, last name and suffix columns with a single space? Lots of these records didn't have anything in the suffix or middle initial columns, so lots of the names here have double spaces between the first and last names, and/or a trailing space after the last name. Run a find and replace for double-spaces and for spaces followed by a quote mark. 
+
+* Lots of records in the employment column are redundant – for instance you'll see lots of entries marked "Retired–NOT EMPLOYED" and "Retired–RETIRED". I like to run a find and replace on those so that they're simply "Retired". 
+
+Finally, to convert your csv file to JSON, replace each newline character with a set of brackets with a comma separating each row: find `\n` and replace it with `\],\n\[`. Then make sure you have containing brackets at the beginning and end of your file, and make sure there's no dangling comma on the last row:
+
+
+~~~~
+[
+["01/01/2018","Mr. Adam Roland Cote",100,"PAUL  BERKNER ","ROME","ME","Teacher/Education–COLBY COLLEGE"],
+["01/01/2018","Hon. Mark Westwood Eves",100,"HEIDI  SELDOMRIDGE ","OLYMPIA","WA","Teacher/Education–TUMWATER SCHOOL DISTRICT"],
+.
+.
+.
+["04/24/2018","Shawn Moody",50,"JOHN  KOLLER ","SCARBOROUGH","ME","Retired–RETIRED"],
+["04/24/2018","Shawn Moody",1600,"WILLIAM  PLANTE ","SPRINGVALE","ME","–CHARLES PLANTE AND SON - EARTHWORK AND PAVING"]
+]
+~~~~
+
+Save your bracketed JSON-format file with a file name that reflects when the data was processed – for instance, `governorDonations_02May2018.json` – then upload it to the dataTables directory on our server. 
+
+If something's not working, try using [JSONLint](https://jsonlint.com/) to make sure your JSON is valid and there aren't any stray commas or quotation marks.
+
+## General help with R
+
+If you run into trouble, don't worry! Chances are someone else on the internet has also had your problem. Use Google to try to find answers to your questions. You can also find lots of helpful R users who are also journalists on the [NICAR e-mail list.](https://www.ire.org/resource-center/listservs/subscribe-nicar-l/)
+
+[DataCamp has a good introductory course on R if you want to learn more.](https://www.datacamp.com/courses/free-introduction-to-r)
+
 
 
 
