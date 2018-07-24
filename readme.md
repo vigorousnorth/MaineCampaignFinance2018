@@ -7,7 +7,7 @@ This is a tutorial for complete beginners in R to start using and analyzing Main
 
 ## Getting started
 
-We'll be working with raw data from the Maine Ethics Commission. [Download and save the 2018 "Contributions and Loans" CSV file here.](https://secure.mainecampaignfinance.com/PublicSite/DataDownload.aspx) You'll need to unzip the file and save the CSV file somewhere where you can find it later (I suggest renaming it with a more useful file name). 
+We'll be working with raw data from the Maine Ethics Commission. [Download and save the 2018 "Contributions and Loans" CSV file here.](https://mainecampaignfinance.com/#/dataDownload) You'll need to unzip the file and save the CSV file somewhere where you can find it later (I suggest renaming it with a more useful file name – for these examples, I'll be naming the file "2018_Contributions.csv"). 
 
 [Download R from here](https://cran.rstudio.com/)
 
@@ -239,9 +239,9 @@ Challenge: How would you get all the rows from the `sample` dataframe where the 
 
 Now that you’ve got a handle on filtering small dataframes, let’s tackle the big one. We want to filter the big Ethics dataset of political contributions to only look at donations for active gubernatorial candidates, getting rid of all the donations to PACs and state house campaigns.
 
-As you may recall from when we ran the `summary()` function above, there’s a column labelled CandidateName. Here’s an excerpt from the summary report using my data:
+As you may recall from when we ran the `summary()` function above, there’s a column labelled Candidate.Name. Here’s an excerpt from the summary report using my data:
 ~~~~
- CandidateName   									  
+ Candidate.Name   									  
                         :11590   	
  Janet Mills            : 1184  
  Mr. Adam Roland Cote   :  942            
@@ -250,41 +250,43 @@ As you may recall from when we ran the `summary()` function above, there’s a c
  Shawn Moody            :  401            
  (Other)                : 3727
 ~~~~
-This tells me that, of the complete data18 dataframe that I loaded from the CSV file, there are 11,590 rows that are blank in the `CandidateName` field (these are probably donations to PACs and/or ballot questions), plus 1,184 rows that represent donations to Janet Mills, 942 rows for Adam Cote, and so on. 
+This tells me that, of the complete data18 dataframe that I loaded from the CSV file, there are 11,590 rows that are blank in the `Candidate.Name` field (these are probably donations to PACs and/or ballot questions), plus 1,184 rows that represent donations to Janet Mills, 942 rows for Adam Cote, and so on. 
 
 It also tells me that, if I’m filtering out all the PAC and ballot question donations, my final result should be no larger than 8,500 rows (I’m starting with just under 19,000 rows, and subtracting out 11,590 rows that have no candidate specified). Again, you’ll be dealing with more rows, but this summary data can give you a ballpark estimate.
 
-This column offers one approach to subsetting the data: I could just use my `==` operators with an `|` (OR) Boolean statement to get all the rows where the `CandidateName` column is equal to “Janet Mills” OR “Mr. Adam Roland Cote” OR “Shawn Moody” OR... etc. etc.
+This column offers one approach to subsetting the data: I could just use my `==` operators with an `|` (OR) Boolean statement to get all the rows where the `Candidate.Name` column is equal to “Janet Mills” OR “Mr. Adam Roland Cote” OR “Shawn Moody” OR... etc. etc.
 
 (don’t actually type this in; there’s a better way)
 
-`>  data18[((data18$CandidateName =="Shawn Moody") | (data18$CandidateName =="Janet Mills") | [and so on, and so on…]`
+`>  data18[((data18$Candidate.Name =="Shawn Moody") | (data18$Candidate.Name =="Janet Mills") | [and so on, and so on…]`
 
 That’s pretty unwieldy. Also, there are some candidates whose names appear in multiple spellings in this dataset (`Teresea Hayes` and `HON. TERESEA M HAYES` for instance).
 
-There’s a better way to do this. We’re going to look at the first column in the dataframe, the `OrgID` column. This is a unique identifier for each campaign. This way, we don’t need to worry about strange spellings in the CandidateName column.
+There’s a better way to do this. We’re going to look at the first column in the dataframe, the `OrgID` column. This is a unique identifier for each campaign. This way, we don’t need to worry about strange spellings in the Candidate.Name column.
 
 Here are the OrgIDs for active candidates as of May:
 
 |Candidate|OrgID
 | ----- |:------:|
-|Caron	|10166
-|Cote	|10067
-|Dion	|10184
-|Eves	|10132
-|Fredette	|10168
-|Hayes		|10057
-|Mason		|10173
-|Mayhew	|10112
-|Mills		|10125
-|Moody		|10224
-|Russell	|10139
-|Sweet		|10106
+|Caron (I)	|5668
+|Chadborne (R) (write-in)	|6253
+|Cote	(D)	|5620
+|D. Dion (D)	|5803
+|M. Dion (D)	|5684
+|Eves	(D)	|5639
+|Fredette	(R)	|5670
+|Hayes (I)		|5618
+|Mason (R)		|5675
+|Mayhew (R)	|5631
+|Mills (D)	|5635
+|Moody (R)	|5720
+|Russell (D)	|5646
+|Sweet (D)	|5628
 
 
 Let’s put these into a vector:
 
-`> gov_ids <- c(10166,10067,10184,10132,10168,10057,10173,10112,10125,10224,10139,10106)`
+`> gov_ids <- c(5668,6253,5620,5803,5684,5639,5670,5618,5675,5631,5635,5720,5646,5628)`
 
 And now we can subset our original dataset on the OrgID column. Here’s one way to do it, the way we’ve already learned:
 
