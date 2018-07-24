@@ -264,7 +264,7 @@ That’s pretty unwieldy. Also, there are some candidates whose names appear in 
 
 There’s a better way to do this. We’re going to look at the first column in the dataframe, the `OrgID` column. This is a unique identifier for each campaign. This way, we don’t need to worry about strange spellings in the Candidate.Name column.
 
-Here are the OrgIDs for active candidates as of May:
+Here are the OrgIDs for the active candidates as of the July 24 post-primary filing deadline:
 
 |Candidate|OrgID
 | ----- |:------:|
